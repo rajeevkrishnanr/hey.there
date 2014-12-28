@@ -84,7 +84,8 @@
             android:layout_above="@+id/but_reg"
             android:layout_alignLeft="@+id/but_reg"
             android:layout_alignStart="@+id/but_reg"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:onClick="logintry"/>
 
         <Button
             android:layout_width="wrap_content"

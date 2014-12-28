@@ -2,39 +2,32 @@ package in.heythere.heythere;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 public class login extends ActionBarActivity {
+    private EditText username_input = null;
+    private EditText password_input = null;
+    private Button loginbut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        username_input = (EditText) findViewById(R.id.userid);
+        password_input = (EditText) findViewById(R.id.password);
+        loginbut = (Button) findViewById(R.id.but_signin);
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
+    public void logintry(View view) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        String username = username_input.getText().toString();
+        String password = password_input.getText().toString();
+       /** new  logintrybg(this).execute(username,password);**/
         }
 
-        return super.onOptionsItemSelected(item);
     }
-}
+

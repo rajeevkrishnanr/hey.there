@@ -16,6 +16,8 @@
     <string name="new_account">I want to Create a new Account</string>
     <string name="exist_account">Login Using Existing account</string>
     <string name="pwd_forgot">Forgot Password?</string>
-
+    <string name="title_activity_loginauth">loginauth</string>
+    <string name="title_activity_logintrybg">logintrybg</string>
+    <string name="title_activity_test__land_page">Test_LandPage</string>
 
 </resources>

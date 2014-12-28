@@ -20,6 +20,10 @@
             android:name=".login"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".Test_LandPage"
+            android:label="@string/title_activity_test__land_page" >
+        </activity>
     </application>
 
 </manifest>
