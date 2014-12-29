@@ -1,17 +1,42 @@
 package in.heythere.heythere;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
-public class Test_LandPage extends ActionBarActivity {
+public class Test_LandPage extends ActionBarActivity implements View.OnClickListener{
 
+    private Button LogoutBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test__land_page);
+        LogoutBtn = (Button) findViewById(R.id.LogoutBtn);
+        LogoutBtn.setOnClickListener(this);
+
+
+
+    }
+
+    @Override
+    public void onClick(View v2)
+    {
+
+        switch (v2.getId())
+        { case R.id.LogoutBtn:
+            try
+            {
+                Intent k = new Intent(Test_LandPage.this, login.class);
+                startActivity(k);
+            }catch(Exception e){}
+
+            default: break;
+        }
     }
 
 

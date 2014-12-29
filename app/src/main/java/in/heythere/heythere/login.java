@@ -1,33 +1,144 @@
 package in.heythere.heythere;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class login extends ActionBarActivity {
-    private EditText username_input = null;
-    private EditText password_input = null;
+public class login extends ActionBarActivity implements View.OnClickListener {
+
+    private EditText user, pass;
     private Button loginbut;
+    private ProgressDialog pDialog;
+    /* JSON parser*/
+
+    JSONParser jsonParser = new JSONParser();
+
+    private static final String LOGIN_URL = "http://192.168.56.1//heyserver/login_exec.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        username_input = (EditText) findViewById(R.id.userid);
-        password_input = (EditText) findViewById(R.id.password);
+        user = (EditText) findViewById(R.id.userid);
+        pass = (EditText) findViewById(R.id.password);
         loginbut = (Button) findViewById(R.id.but_signin);
+        loginbut.setOnClickListener(this);
     }
 
+    @Override public void onClick(View v)
+    {
 
-    public void logintry(View view) {
+     switch (v.getId())
+     { case R.id.but_signin: new AttemptLogin().execute();
+      /*here we have used, switch case, because on login activity you may
+      also want to show registration button, so if the user is new ! we can go the
+       registration activity , other than this we could also do this without switch
+      case.*/
+       default: break;
+     }
+    }
 
-        String username = username_input.getText().toString();
-        String password = password_input.getText().toString();
-       /** new  logintrybg(this).execute(username,password);**/
+    class AttemptLogin extends AsyncTask<String, String, String>
+    {
+        @Override protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(login.this);
+            pDialog.setMessage("Attempting for login...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show(); }
+        @Override protected String doInBackground(String... args)
+        {
+
+        /*  here Check for success tag */
+
+            int success;
+            String msg = "";
+            String username = user.getText().toString();
+            String password = pass.getText().toString();
+
+
+
+
+            try { List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("username", username));
+                params.add(new BasicNameValuePair("password", password));
+                Log.d("request!", "starting");
+                JSONObject json = jsonParser.makeHttpRequest( LOGIN_URL, "POST", params);
+                // checking log for json response
+                Log.d("Login attempt", json.toString());
+                // success tag for json
+                success = json.getInt(TAG_SUCCESS);
+                msg = json.getString(TAG_MESSAGE);
+                if (success == 1)
+                { Log.d("Successfully Login!", json.toString());
+                    Intent ii = new Intent(login.this,Test_LandPage.class);
+                    finish();
+
+                    // this finish() method is used to tell android os that we are done with current
+                    // activity now! Moving to other activity
+                    startActivity(ii);
+                    return json.getString(TAG_MESSAGE); }
+                else{
+                    return json.getString(TAG_MESSAGE);
+
+                }
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+
+            }
+            return msg;
+        }
+
+
+        @Override protected void onPostExecute(String result){
+            pDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
+
+        }
+
+
+
+
+
+    }
+}
+
+
+
+
+/*
+  //Obsolete Code:
+
+  public void logintry(View view) {
+
+        String username = user.getText().toString();
+        String password = passw.getText().toString();
+       new  login(this).execute(username,password);
         }
 
     }
 
+*/

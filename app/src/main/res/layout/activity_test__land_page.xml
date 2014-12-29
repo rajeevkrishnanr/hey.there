@@ -18,7 +18,7 @@
         android:textSize="20dip"
 
         android:textStyle="bold"
-        android:id="@+id/btnLogout"
+        android:id="@+id/LogoutBtn"
         android:focusable="false" />
 
 </LinearLayout>

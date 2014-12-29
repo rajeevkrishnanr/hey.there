@@ -45,7 +45,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+            android:layout_marginRight="30dp"
+            android:inputType="text" />
 
         <EditText
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:inputType="textPassword" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,7 +87,7 @@
             android:layout_alignLeft="@+id/but_reg"
             android:layout_alignStart="@+id/but_reg"
             android:layout_marginBottom="10dp"
-            android:onClick="logintry"/>
+            />
 
         <Button
             android:layout_width="wrap_content"
