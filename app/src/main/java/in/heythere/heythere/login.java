@@ -23,7 +23,7 @@ import java.util.List;
 public class login extends ActionBarActivity implements View.OnClickListener {
 
     private EditText user, pass;
-    private Button loginbut;
+    private Button loginbut,regbut;
     private ProgressDialog pDialog;
     /* JSON parser*/
 
@@ -41,19 +41,27 @@ public class login extends ActionBarActivity implements View.OnClickListener {
         user = (EditText) findViewById(R.id.userid);
         pass = (EditText) findViewById(R.id.password);
         loginbut = (Button) findViewById(R.id.but_signin);
+        regbut = (Button) findViewById(R.id.but_reg);
         loginbut.setOnClickListener(this);
+        regbut.setOnClickListener(this);
     }
 
     @Override public void onClick(View v)
     {
 
      switch (v.getId())
-     { case R.id.but_signin: new AttemptLogin().execute();
+     {
       /*here we have used, switch case, because on login activity you may
       also want to show registration button, so if the user is new ! we can go the
        registration activity , other than this we could also do this without switch
       case.*/
-       default: break;
+         case R.id.but_signin: new AttemptLogin().execute();break;
+
+         case R.id.but_reg:
+             Intent regIntent = new Intent(login.this,RegActivity.class);
+             startActivity(regIntent);break;
+         default: break;
+
      }
     }
 
