@@ -23,13 +23,13 @@ import java.util.List;
 public class login extends ActionBarActivity implements View.OnClickListener {
 
     private EditText user, pass;
-    private Button loginbut;
+    private Button loginbut,regbut;
     private ProgressDialog pDialog;
     /* JSON parser*/
 
     JSONParser jsonParser = new JSONParser();
 
-    private static final String LOGIN_URL = "http://192.168.56.1//heyserver/login_exec.php";
+    private static final String LOGIN_URL = "http://192.168.56.1/heyserver/server/login_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
@@ -41,19 +41,27 @@ public class login extends ActionBarActivity implements View.OnClickListener {
         user = (EditText) findViewById(R.id.userid);
         pass = (EditText) findViewById(R.id.password);
         loginbut = (Button) findViewById(R.id.but_signin);
+        regbut = (Button) findViewById(R.id.but_reg);
         loginbut.setOnClickListener(this);
+        regbut.setOnClickListener(this);
     }
 
     @Override public void onClick(View v)
     {
 
      switch (v.getId())
-     { case R.id.but_signin: new AttemptLogin().execute();
+     {
       /*here we have used, switch case, because on login activity you may
       also want to show registration button, so if the user is new ! we can go the
        registration activity , other than this we could also do this without switch
       case.*/
-       default: break;
+         case R.id.but_signin: new AttemptLogin().execute();break;
+
+         case R.id.but_reg:
+             Intent regIntent = new Intent(login.this,RegActivity.class);
+             startActivity(regIntent);break;
+         default: break;
+
      }
     }
 
@@ -72,14 +80,14 @@ public class login extends ActionBarActivity implements View.OnClickListener {
         /*  here Check for success tag */
 
             int success;
-            String msg = "";
+            String msg = "0";
             String username = user.getText().toString();
             String password = pass.getText().toString();
 
 
 
 
-            try { List<NameValuePair> params = new ArrayList<NameValuePair>();
+            try { List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("username", username));
                 params.add(new BasicNameValuePair("password", password));
                 Log.d("request!", "starting");
@@ -88,20 +96,23 @@ public class login extends ActionBarActivity implements View.OnClickListener {
                 Log.d("Login attempt", json.toString());
                 // success tag for json
                 success = json.getInt(TAG_SUCCESS);
-                msg = json.getString(TAG_MESSAGE);
+
                 if (success == 1)
                 { Log.d("Successfully Login!", json.toString());
+                    msg= "1";
                     Intent ii = new Intent(login.this,Test_LandPage.class);
                     finish();
 
                     // this finish() method is used to tell android os that we are done with current
                     // activity now! Moving to other activity
                     startActivity(ii);
-                    return json.getString(TAG_MESSAGE); }
+                    //return json.getString(TAG_MESSAGE);
+                    return msg;}
                 else{
-                    return json.getString(TAG_MESSAGE);
-
-                }
+                    //return json.getString(TAG_MESSAGE);
+                    msg = "0";
+                    return msg;
+                    }
 
             }
             catch (JSONException e)
@@ -114,8 +125,15 @@ public class login extends ActionBarActivity implements View.OnClickListener {
 
 
         @Override protected void onPostExecute(String result){
+            int status = Integer.parseInt(result) ;
+            String disp_text="Try Again";
+            switch (status){
+                case 0: disp_text =  "Login Failed";break;
+                case 1:disp_text= "Login Successful!";break;
+                    default:break;
+            }
             pDialog.dismiss();
-            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),disp_text , Toast.LENGTH_LONG).show();
 
         }
 
@@ -126,19 +144,3 @@ public class login extends ActionBarActivity implements View.OnClickListener {
     }
 }
 
-
-
-
-/*
-  //Obsolete Code:
-
-  public void logintry(View view) {
-
-        String username = user.getText().toString();
-        String password = passw.getText().toString();
-       new  login(this).execute(username,password);
-        }
-
-    }
-
-*/

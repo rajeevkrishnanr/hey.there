@@ -19,5 +19,26 @@
     <string name="title_activity_loginauth">loginauth</string>
     <string name="title_activity_logintrybg">logintrybg</string>
     <string name="title_activity_test__land_page">Test_LandPage</string>
+    <string name="title_activity_authentication">AuthenticationActivity</string>
+    <string name="title_activity_reg">RegActivity</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_info">Photo info</string>
+    <string name="action_photo">View photo</string>
+    <string name="reg_pg1">Lets Register!</string>
+    <string name="reg_sub">Lets get on with Creating a new account for yourself with Hey.There! Lets start with the basic Account Info:</string>
+    <string name="reg_username">Select a Username</string>
+    <string name="reg_password">Enter a strong Password:</string>
+    <string name="reg_pass_verify">Reverify the password:</string>
+    <string name="reg_Tellus">A bit more about yourself!</string>
+    <string name="reg_name">Whats your Real Name ?</string>
+    <string name="reg_email">What is your Email ID?</string>
+    <string name="reg_upload">Set Display Picture</string>
+    <string name="reg_upload_sub">Upload an awesome Profile Display Picture</string>
+    <string name="action_upload">Upload</string>
+    <string name="dp_desc">Preview Of Uploaded Picture</string>
+
+
 
 </resources>
