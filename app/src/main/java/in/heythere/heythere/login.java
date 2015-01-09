@@ -29,7 +29,7 @@ public class login extends ActionBarActivity implements View.OnClickListener {
 
     JSONParser jsonParser = new JSONParser();
 
-    private static final String LOGIN_URL = "http://192.168.56.1/heyserver/login_exec.php";
+    private static final String LOGIN_URL = "http://192.168.56.1/heyserver/server/login_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
