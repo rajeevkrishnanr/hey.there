@@ -32,6 +32,7 @@ public class JSONParser {
     static InputStream is = null;
     static JSONObject jsonObj ;
 
+
     static String json = "";
 
     // default no argument constructor for jsonpaser class
@@ -83,8 +84,8 @@ public class JSONParser {
            //my mod stop
 */
             //Old code:
-             jsonObj = new JSONObject(json);
-            }
+            jsonObj = new JSONObject(json);
+        }
         catch (JSONException e)
         { Log.e("json Parsering", "" + e.toString()); }
         // Returning json Object.
@@ -111,17 +112,7 @@ public class JSONParser {
                 is = httpEntity.getContent();
                 Log.d("Inside Json", "Got Content in 'is'");
             }
-            else if(method == "GET")
-            { // request method is GET
-                Log.d("Inside Json", "GET is the http request!");
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                String paramString = URLEncodedUtils.format(params, "utf-8");
-                url += "?" + paramString;
-                HttpGet httpGet = new HttpGet(url);
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
-            }
+
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();

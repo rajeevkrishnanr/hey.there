@@ -54,7 +54,7 @@ public class RegActivity extends FragmentActivity {
 
     private String new_user, new_pass,new_name,new_emailid;
     private ProgressDialog pDialog;
-    private static final String LOGIN_URL = "http://192.168.56.1/heyserver/server/reg_exec.php";
+    private static final String LOGIN_URL = "http://192.168.0.11/heyserver/server/reg_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private Uri imageUri;

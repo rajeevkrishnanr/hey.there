@@ -2,6 +2,7 @@ package in.heythere.heythere;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,13 +26,15 @@ public class login extends ActionBarActivity implements View.OnClickListener {
     private EditText user, pass;
     private Button loginbut,regbut;
     private ProgressDialog pDialog;
+
     /* JSON parser*/
 
     JSONParser jsonParser = new JSONParser();
 
-    private static final String LOGIN_URL = "http://192.168.56.1/heyserver/server/login_exec.php";
+    private static final String LOGIN_URL = "http://192.168.0.11/heyserver/server/login_exec.php";
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
+    private static final String TAG_ID = "id";
+    private  String user_uid= "NULL";
 
 
     @Override
@@ -44,7 +47,19 @@ public class login extends ActionBarActivity implements View.OnClickListener {
         regbut = (Button) findViewById(R.id.but_reg);
         loginbut.setOnClickListener(this);
         regbut.setOnClickListener(this);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("HeyThere_pref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("key", true);
+        boolean auth_status = pref.getBoolean("Auth_status",false);
+if (auth_status == true) {
+    Intent i = new Intent(login.this, MainScreen.class);
+    finish();
+    startActivity(i);
+}
     }
+
 
     @Override public void onClick(View v)
     {
@@ -96,11 +111,22 @@ public class login extends ActionBarActivity implements View.OnClickListener {
                 Log.d("Login attempt", json.toString());
                 // success tag for json
                 success = json.getInt(TAG_SUCCESS);
+                user_uid =json.getString(TAG_ID);
 
                 if (success == 1)
                 { Log.d("Successfully Login!", json.toString());
                     msg= "1";
-                    Intent ii = new Intent(login.this,Test_LandPage.class);
+                    Intent ii = new Intent(login.this,MainScreen.class);
+
+                    SharedPreferences pref_new = getApplicationContext().getSharedPreferences("HeyThere_pref", 0); // 0 - for private mode
+                    SharedPreferences.Editor editor = pref_new.edit();
+                    editor.putBoolean("Auth_status", true);
+                    editor.putString("id",user_uid);
+                    editor.commit();
+
+
+
+
                     finish();
 
                     // this finish() method is used to tell android os that we are done with current
@@ -128,7 +154,9 @@ public class login extends ActionBarActivity implements View.OnClickListener {
             int status = Integer.parseInt(result) ;
             String disp_text="Try Again";
             switch (status){
-                case 0: disp_text =  "Login Failed";break;
+                case 0: disp_text =  "Login Failed";
+
+                    break;
                 case 1:disp_text= "Login Successful!";break;
                     default:break;
             }

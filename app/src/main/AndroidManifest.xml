@@ -2,8 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.heythere.heythere" >
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--
+         The following two permissions are not required to use
+         Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -35,6 +44,41 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.heythere.heythere.login" />
         </activity>
+
+        <activity
+            android:name=".MainScreen"
+            android:label="@string/title_activity_main_activity_screen" >
+        </activity>
+
+        <activity
+            android:name=".about"
+            android:label="@string/title_activity_about"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:parentActivityName=".MainScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.heythere.heythere.MainScreen" />
+
+        </activity>
+        <activity
+            android:name=".nearbyList"
+            android:label="@string/title_activity_nearby_list"
+            android:parentActivityName=".MainScreen"
+            android:theme="@style/Theme.AppCompat" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.heythere.heythere.MainScreen" />
+        </activity>
+        <activity
+            android:name=".People_Profile"
+            android:label="@string/title_activity_people__profile"
+            android:theme="@style/Theme.AppCompat" >
+            </activity>
+                   <service
+            android:name=".MyLocationService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

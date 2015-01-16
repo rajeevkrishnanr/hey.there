@@ -16,8 +16,8 @@
     <string name="new_account">I want to Create a new Account</string>
     <string name="exist_account">Login Using Existing account</string>
     <string name="pwd_forgot">Forgot Password?</string>
-    <string name="title_activity_loginauth">loginauth</string>
-    <string name="title_activity_logintrybg">logintrybg</string>
+    <string name="title_activity_loginauth">Login</string>
+    <string name="title_activity_logintrybg">Login</string>
     <string name="title_activity_test__land_page">Test_LandPage</string>
     <string name="title_activity_authentication">AuthenticationActivity</string>
     <string name="title_activity_reg">RegActivity</string>
@@ -38,7 +38,29 @@
     <string name="reg_upload_sub">Upload an awesome Profile Display Picture</string>
     <string name="action_upload">Upload</string>
     <string name="dp_desc">Preview Of Uploaded Picture</string>
-
-
+    <string name="title_activity_main_activity_screen">Home Screen</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string-array name="drawer_array">
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Carpool</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>About</item>
+        <item>Log Out !</item>
+    </string-array>
+    <string name="find">Start Search!</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_nearby_list">People Nearby!</string>
+    <string name="title_activity_people__profile">Profile Info</string>
+    <string name="distance_text">Current Distance:</string>
+    <string name="connect">Lets Connect!</string>
+    <string name="open">Open!</string>
+    <string name="close">Close! Connect!</string>
 
 </resources>

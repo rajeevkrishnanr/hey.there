@@ -10,6 +10,9 @@
         android:layout_height="438dp"
         android:orientation="vertical"
         android:weightSum="1">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
         <Space
             android:layout_width="match_parent"
@@ -55,7 +58,7 @@
             android:focusableInTouchMode="false"
             android:text="@string/action_upload"
             android:onClick="uploadDP"/>
-
+        </ScrollView>
     </LinearLayout>
 
     <Button
