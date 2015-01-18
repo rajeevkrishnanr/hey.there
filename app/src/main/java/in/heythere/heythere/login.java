@@ -31,7 +31,7 @@ public class login extends ActionBarActivity implements View.OnClickListener {
 
     JSONParser jsonParser = new JSONParser();
 
-    private static final String LOGIN_URL = "http://192.168.0.11/heyserver/server/login_exec.php";
+    private static final String LOGIN_URL = "http://server.heyteam.me/login_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_ID = "id";
     private  String user_uid= "NULL";
@@ -107,31 +107,42 @@ if (auth_status == true) {
                 params.add(new BasicNameValuePair("password", password));
                 Log.d("request!", "starting");
                 JSONObject json = jsonParser.makeHttpRequest( LOGIN_URL, "POST", params);
-                // checking log for json response
-                Log.d("Login attempt", json.toString());
+
                 // success tag for json
                 success = json.getInt(TAG_SUCCESS);
-                user_uid =json.getString(TAG_ID);
 
                 if (success == 1)
-                { Log.d("Successfully Login!", json.toString());
+                {
+                    //Log.d("Successfully Login!", json.toString());
                     msg= "1";
-                    Intent ii = new Intent(login.this,MainScreen.class);
+                    user_uid =json.getString(TAG_ID);
+                    String user_fullname=json.getString("fullname");
+                    String user_email=json.getString("email");
+                    String user_dp=json.getString("dp");
+                    Log.d("Successfully Login!", user_fullname +" and "+user_email);
+
+
+
 
                     SharedPreferences pref_new = getApplicationContext().getSharedPreferences("HeyThere_pref", 0); // 0 - for private mode
-                    SharedPreferences.Editor editor = pref_new.edit();
-                    editor.putBoolean("Auth_status", true);
-                    editor.putString("id",user_uid);
-                    editor.commit();
+                    SharedPreferences.Editor editor_new = pref_new.edit();
+                    editor_new.putBoolean("Auth_status", true);
+                    editor_new.putString("id",user_uid);
+                    editor_new.putString("name",user_fullname);
+                    editor_new.putString("email",user_email);
+                    editor_new.putString("dp_encode",user_dp);
+                    editor_new.putString("username",username);
+                    editor_new.commit();
 
 
+                    Intent start_app = new Intent(login.this,MainScreen.class);
 
 
-                    finish();
 
                     // this finish() method is used to tell android os that we are done with current
                     // activity now! Moving to other activity
-                    startActivity(ii);
+                    startActivity(start_app);
+                    finish();
                     //return json.getString(TAG_MESSAGE);
                     return msg;}
                 else{
@@ -164,6 +175,7 @@ if (auth_status == true) {
             Toast.makeText(getApplicationContext(),disp_text , Toast.LENGTH_LONG).show();
 
         }
+
 
 
 

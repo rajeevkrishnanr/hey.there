@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -21,7 +20,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".title"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,21 +44,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.heythere.heythere.login" />
         </activity>
-
         <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_activity_screen" >
         </activity>
-
         <activity
             android:name=".about"
             android:label="@string/title_activity_about"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:parentActivityName=".MainScreen" >
+            android:parentActivityName=".MainScreen"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.heythere.heythere.MainScreen" />
-
         </activity>
         <activity
             android:name=".nearbyList"
@@ -73,12 +70,18 @@
             android:name=".People_Profile"
             android:label="@string/title_activity_people__profile"
             android:theme="@style/Theme.AppCompat" >
-            </activity>
-                   <service
+        </activity>
+
+        <service
             android:name=".MyLocationService"
             android:enabled="true"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".SelfProfile"
+            android:label="@string/title_activity_self_profile" >
+        </activity>
     </application>
 
 </manifest>

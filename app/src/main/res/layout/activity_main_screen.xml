@@ -40,14 +40,17 @@
             android:id="@+id/btnShowLocation"
             android:layout_gravity="center_horizontal|bottom"
             android:background="#ff4b4b4b"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:layout_marginBottom="5dp" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top">
+            android:layout_gravity="center|top"
+            android:layout_margin="2dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/LinLayot_content">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -62,12 +65,45 @@
 
             <ImageView
                 android:layout_width="512dp"
-                android:layout_height="267dp"
+                android:layout_height="230dp"
                 android:id="@+id/imageView"
                 android:layout_gravity="center"
                 android:src="@drawable/earth"
                 android:scaleType="centerCrop"
                 android:contentDescription="The Map Comes here in the next ver." />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/setrange"
+                android:id="@+id/textView6"
+                android:layout_marginTop="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/setrange_explain"
+                android:id="@+id/textView8"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rangeBar"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/range_set"
+                android:id="@+id/rangeSet"
+                android:layout_gravity="right"
+                android:layout_marginTop="3dp" />
 
         </LinearLayout>
 

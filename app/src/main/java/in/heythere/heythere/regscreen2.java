@@ -31,7 +31,9 @@ public class regscreen2 extends Fragment {
         new_name = (EditText)rootView.findViewById(R.id.new_fullname);
         new_email = (EditText) rootView.findViewById(R.id.new_email);
         Button next_enter = (Button)rootView.findViewById(R.id.next);
+        Button back_enter = (Button)rootView.findViewById(R.id.back_button);
         next_enter.setOnClickListener(next_enterOnClickListener);
+        back_enter.setOnClickListener(back_enterOnClickListener);
         return rootView;
     }
 
@@ -44,18 +46,39 @@ public class regscreen2 extends Fragment {
 
             String TPfullname = new_name.getText().toString();
             String TPemail =new_email.getText().toString();
+            if( (TPfullname).isEmpty() || (TPemail).isEmpty())
+            {
+
+                Toast.makeText(getActivity(),"Please Fill in all the fields !",Toast.LENGTH_SHORT).show();
+            }
+            else {
 
 
-            ((RegActivity) getActivity()).getDatafromFragment2(TPfullname,TPemail);
+                ((RegActivity) getActivity()).getDatafromFragment2(TPfullname, TPemail);
 
-            Toast.makeText(getActivity(),
-                    "text sent to Fragment B: Full name: " + TPfullname + "\n password is: " + TPemail,
-                    Toast.LENGTH_SHORT).show();
-            ((RegActivity)getActivity()).actionNextPage();
+                Toast.makeText(getActivity(),
+                        "text sent to Fragment B: Full name: " + TPfullname + "\n password is: " + TPemail,
+                        Toast.LENGTH_SHORT).show();
+                ((RegActivity) getActivity()).actionNextPage();
+            }
 
 
 
         }};
+
+    View.OnClickListener back_enterOnClickListener
+            = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View arg0) {
+
+
+            ((RegActivity)getActivity()).actionBackPage();
+
+
+
+        }};
+
 
 
 

@@ -45,6 +45,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
+
     <string-array name="drawer_array">
         <item>Home</item>
         <item>Profile</item>
@@ -54,6 +55,7 @@
         <item>About</item>
         <item>Log Out !</item>
     </string-array>
+
     <string name="find">Start Search!</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_nearby_list">People Nearby!</string>
@@ -62,5 +64,16 @@
     <string name="connect">Lets Connect!</string>
     <string name="open">Open!</string>
     <string name="close">Close! Connect!</string>
+    <string name="setrange">Set the search radius!</string>
+    <string name="setrange_explain">Determine how far shoud we search for people! (Max:  10 Km)</string>
+    <string name="range_set">0 Km</string>
+    <string name="user_err">Bummer! It seems the user name you have entered is alredy taken! try another name. </string>
+    <string name="title_activity_self_profile">SelfProfile</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="age">Age</string>
+    <string name="town">Current Address</string>
+    <string name="nil">-</string>
+
 
 </resources>

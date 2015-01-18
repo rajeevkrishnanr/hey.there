@@ -7,19 +7,23 @@ import android.app.FragmentManager;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,13 +58,14 @@ public class RegActivity extends FragmentActivity {
 
     private String new_user, new_pass,new_name,new_emailid;
     private ProgressDialog pDialog;
-    private static final String LOGIN_URL = "http://192.168.0.11/heyserver/server/reg_exec.php";
+    private static final String REG_URL = "http://192.168.0.13/heyserver/server/reg_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private Uri imageUri;
     private Button finishbut;
     private static Bitmap dpImage = null;
     JSONParser jsonParser = new JSONParser();
+
 
 
     //Debug String
@@ -90,6 +95,16 @@ public class RegActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
 
         //Init The UI Fields
+        mPager.setOnTouchListener(new ViewPager.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return false;
+            }
+
+
+        });
 
 
         mPager.setOnFocusChangeListener(new ViewPager.OnFocusChangeListener() {
@@ -151,11 +166,17 @@ public class RegActivity extends FragmentActivity {
     }
 
     //TODO
-    public void getDatafromFragment1(String username_frag,String pass_frag)
-    {
+    public void getDatafromFragment1(String username_frag,String pass_frag,String pass_frag_verify)
+        {
         Log.d("Datafrom Fragment in activity()", "Working");
         new_user= username_frag;
-        new_pass = pass_frag;
+
+            new_pass = pass_frag;
+
+
+            //mPager.setCurrentItem(2);
+
+
 
         Log.d("Data from frgament received", "data is" + newdbgtext);
 
@@ -172,13 +193,20 @@ public class RegActivity extends FragmentActivity {
 
     public void actionNextPage() {
         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+
+
+
+
+    }
+
+    public void actionBackPage() {mPager.setCurrentItem(mPager.getCurrentItem() - 1);
     }
 
     /**
      * A simple pager adapter that represents 3 objects, in
      * sequence.
      */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -206,6 +234,8 @@ public class RegActivity extends FragmentActivity {
             // get item count - equal to number of tabs
             return 3;
         }
+
+
     }
 
 
@@ -283,7 +313,7 @@ public class RegActivity extends FragmentActivity {
                 params.add(new BasicNameValuePair("dpimage", dpImage_encoded));
 
                 Log.d("JSON request!", "starting");
-                JSONObject json = jsonParser.makeHttpRequest( LOGIN_URL, "POST", params);
+                JSONObject json = jsonParser.makeHttpRequest( REG_URL, "POST", params);
                 success = json.getInt(TAG_SUCCESS);
                 //Log.d("Value of Success is", success);
                 //success=1;
@@ -293,7 +323,7 @@ public class RegActivity extends FragmentActivity {
                     //Log.d("Successfully Login!", json.toString());
                     msg = "1";
                     Intent ii = new Intent(RegActivity.this, login.class);
-                    finish();
+                                        finish();
 
                     // this finish() method is used to tell android os that we are done with current
                     // activity now! Moving to other activity
@@ -324,7 +354,7 @@ public class RegActivity extends FragmentActivity {
             String disp_text="Try Again";
             switch (status){
                 case 0: disp_text =  "Registration Failed";break;
-                case 1:disp_text= "Registration Successful!";break;
+                case 1:disp_text= "Registration Successful! \n Kindly Login ";break;
                 case 2: disp_text= "Username already taken!"; mPager.setCurrentItem(0);break;
                 default:break;
             }
@@ -449,6 +479,6 @@ public class RegActivity extends FragmentActivity {
         //start the activity - we handle returning in onActivityResult
         startActivityForResult(cropIntent, 2);
     }
-
+/**********************************************************************************************************/
 
 }

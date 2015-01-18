@@ -66,7 +66,7 @@ public class MyLocationService extends Service implements LocationListener {
 
         //Server Background sync Here!!
         JSONParser jsonParser = new JSONParser();
-        final String LOC_UPDATE_URL = "http://192.168.0.11/heyserver/server/location_update.php";
+        final String LOC_UPDATE_URL = "http://server.heyteam.me/location_update.php";
 
 
 
