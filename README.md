@@ -52,11 +52,11 @@ Planned Features:
 
 *Linking to the social networks of the other person
 
-*Built in Camera and sharing features*
+*Built in Camera and sharing features
 
-Lisence
+License
 =========
-The Souce code will remain closed Source until the Final Project review
+The Souce code will remain as closed-Source until the Final Project review!
 
 Team Members
 =========
