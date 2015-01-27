@@ -20,7 +20,7 @@ public class nearbyList extends ActionBarActivity {
     MyLocationService gps;
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
-    private static final String FIND_FRIEND_URL = "http://192.168.0.11/heyserver/server/find_people.php";
+    private static final String FIND_FRIEND_URL = "http://server.heyteam.me/find_people.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     String id;

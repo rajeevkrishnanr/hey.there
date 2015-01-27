@@ -68,7 +68,7 @@
     <string name="setrange_explain">Determine how far shoud we search for people! (Max:  10 Km)</string>
     <string name="range_set">0 Km</string>
     <string name="user_err">Bummer! It seems the user name you have entered is alredy taken! try another name. </string>
-    <string name="title_activity_self_profile">SelfProfile</string>
+    <string name="title_activity_self_profile">My Profile</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="age">Age</string>

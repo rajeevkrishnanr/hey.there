@@ -1,25 +1,22 @@
 package in.heythere.heythere;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.AttributeSet;
+
 import android.util.Base64;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +25,18 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,30 +48,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainScreen extends ActionBarActivity {
+public class MainScreen extends ActionBarActivity implements OnMapReadyCallback {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mDrawerItems;
-   public static int DrawerArrowToggle_spinBars;
+    public static int DrawerArrowToggle_spinBars;
     MyLocationService gps;
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static final String FIND_FRIEND_URL = "http://server.heyteam.me/find_people.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-    String id,searchRange;
-    double latitude,longitude;
+    String id,searchRange,myName;
+    double latitude,longitude,lat_p,lng_p;
     private Bitmap dpImage_temp = null;
-
-
+    public MapFragment mapFragment;
+    GoogleMap mapp;
+    int circleRange;
+    Circle rangeCircle;
+    CircleOptions circleOptions;
     ArrayList<Bitmap> dpImageArry = new ArrayList<Bitmap>();
     ArrayList<String> nearbyNames= new ArrayList<String>();
     ArrayList<String> nearbyIds=new ArrayList<String>();
     ArrayList<String>nearbyDist = new ArrayList<String>();
-
+    ArrayList<LatLng>nearbyCoordinates=new ArrayList<LatLng>();
 
 
 
@@ -76,6 +88,8 @@ public class MainScreen extends ActionBarActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("HeyThere_pref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         id=pref.getString("id",null);
+        myName=pref.getString("name","ME");
+
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerItems = getResources().getStringArray(R.array.drawer_array);
@@ -94,6 +108,16 @@ public class MainScreen extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+
+//TODO Map Setup
+
+        mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        getTheLocation();
+
+
+
         SeekBar rangeBar =(SeekBar)findViewById(R.id.rangeBar);
         final TextView rangeKm=(TextView)findViewById(R.id.rangeSet);
         rangeBar.setMax(100);
@@ -101,6 +125,18 @@ public class MainScreen extends ActionBarActivity {
         rangeBar.setProgress(5);
         rangeKm.setText("2" +" Km");
         searchRange=Integer.toString(rangeBar.getProgress());
+        circleOptions = new CircleOptions()
+                .center(new LatLng(latitude, longitude))
+                .radius( Integer.parseInt(searchRange)).fillColor(0x4D3399cc).strokeColor(Color.BLUE).strokeWidth(1);
+
+        rangeCircle = (mapFragment.getMap()).addCircle(circleOptions);
+
+
+
+
+
+
+
 
         rangeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -113,6 +149,8 @@ public class MainScreen extends ActionBarActivity {
                 rangeKm.setText(progress +" Km");
 
                 searchRange=Integer.toString(progress);
+                circleRange = progress*1000;
+                rangeCircle.setRadius(circleRange);
 
             }
 
@@ -124,6 +162,8 @@ public class MainScreen extends ActionBarActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+
+
             }
         });
         Button btnShowLocation = (Button) findViewById(R.id.btnShowLocation);
@@ -133,24 +173,9 @@ public class MainScreen extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 // create class object
-                gps = new MyLocationService(MainScreen.this);
+                getTheLocation();
+                findNearby();
 
-                // check if GPS enabled
-                if(gps.canGetLocation()){
-
-                    latitude = gps.getLatitude();
-                    longitude = gps.getLongitude();
-
-                    findNearby();
-
-                    // \n is for new line
-                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                }else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
-                }
 
 
             }
@@ -160,7 +185,50 @@ public class MainScreen extends ActionBarActivity {
 
     }
 
+    public void getTheLocation(){
+        gps = new MyLocationService(MainScreen.this);
 
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+
+
+            // \n is for new line
+            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+    }
+
+    //TODO Map Works
+    @Override
+    public final void onMapReady(GoogleMap map){
+        map.setMyLocationEnabled(false);
+        getTheLocation();
+        map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(myName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 11),2000,null);
+    }
+
+    public void putOnMap(LatLng marker_coordinate,String marker_name,String marker_distance){
+        mapp = mapFragment.getMap();
+        Log.d("PutonMap:","Marker Making");
+        mapp.addMarker(new MarkerOptions().position(marker_coordinate).title(marker_name).snippet("Estimated Distance :" + marker_distance.substring(0, 4) + " Km"));
+
+    }
+    public void putMeOnMap()
+    {
+        mapp = mapFragment.getMap();
+        mapp.clear();
+        mapp.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(myName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        //mapp.addCircle(circleOptions);
+        rangeCircle.setCenter(new LatLng(latitude,longitude));
+        //rangeCircle.setRadius(circleRange);
+    }
 
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -270,14 +338,13 @@ public class MainScreen extends ActionBarActivity {
 
                 params.add(new BasicNameValuePair("lat", lat_data));
                 params.add(new BasicNameValuePair("lng", lng_data));
-                //params.add(new BasicNameValuePair("radius", new_fullname_Asyncdata));
                 //params.add(new BasicNameValuePair("peoplelimit", new_email_Asyncdata));
                 params.add(new BasicNameValuePair("uid", id_data));
                 params.add(new BasicNameValuePair("radius", range_data));
                 Log.d("JSON request!", "starting");
                 JSONObject json = jsonParser.makeHttpRequest(FIND_FRIEND_URL, "POST", params);
                 success = json.getInt(TAG_SUCCESS);
-                success=1;
+                //success=1;
                 Log.d("JSON request Over", "Put Scuccess as 1");
                 if (success == 1)
                 {
@@ -289,29 +356,30 @@ public class MainScreen extends ActionBarActivity {
 
                     for (int i = 0; i < jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
-                        Log.i("nearby JSON", "id" + json_data.getString("id") +
+                        /*Log.i("nearby JSON", "id" + json_data.getString("id") +
                                         ", fname: " + json_data.getString("fname") +
                                         ", distance: " + json_data.getString("distance")
-                        );
+                        );*/
 
 
                         //nearbyNames[i]=json_data.getString("fname");
                         nearbyNames.add(json_data.getString("fname"));
                         nearbyIds.add(json_data.getString("id"));
                         nearbyDist.add(json_data.getString("distance"));
+                        lat_p = Double.parseDouble(json_data.getString("lat_p"));
+                        lng_p = Double.parseDouble(json_data.getString("lng_p"));
+                        nearbyCoordinates.add(new LatLng(lat_p,lng_p));
+
+
 
                         String dp_string_recv= json_data.getString("dp");
 
 
-
-                        /*nearbyNames.add(fname_recv);
-                        nearbyNames.add(id_recv);
-                        nearbyNames.add(distance_recv);
-                        nearbyNames.add(dp_string_recv);
-                        */
                         byte[] dp_decoded_String= Base64.decode(dp_string_recv, Base64.DEFAULT);
                         dpImage_temp = BitmapFactory.decodeByteArray(dp_decoded_String, 0, dp_decoded_String.length);
                         dpImageArry.add(dpImage_temp);
+
+
 
 
 
@@ -354,8 +422,17 @@ public class MainScreen extends ActionBarActivity {
             b.putStringArrayList("dists",nearbyDist);
             Intent i=new Intent(MainScreen.this, nearbyList.class);
             i.putExtras(b);
+            putMeOnMap();
+        for(int nearbyCount=0;nearbyCount<nearbyCoordinates.size();nearbyCount++) {
+
+
+            putOnMap(nearbyCoordinates.get(nearbyCount),nearbyNames.get(nearbyCount),nearbyDist.get(nearbyCount));
+        }
             pDialog.dismiss();
-            startActivity(i);
+
+
+
+            //startActivity(i);
 
 
         }

@@ -44,13 +44,13 @@
             android:layout_marginBottom="5dp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_margin="2dp"
             android:layout_marginLeft="2dp"
-            android:id="@+id/LinLayot_content">
+            android:id="@+id/LinLayot_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -63,14 +63,13 @@
                 android:textColor="#ffffffff"
                 android:layout_margin="20dp" />
 
-            <ImageView
-                android:layout_width="512dp"
-                android:layout_height="230dp"
-                android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:src="@drawable/earth"
-                android:scaleType="centerCrop"
-                android:contentDescription="The Map Comes here in the next ver." />
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:name="com.google.android.gms.maps.MapFragment"/>
+
+
 
             <TextView
                 android:layout_width="wrap_content"

@@ -127,7 +127,8 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/forgotpass"
             android:layout_toEndOf="@+id/forgotpass"
-            android:layout_marginBottom="48dp" />
+            android:layout_marginBottom="48dp"
+            android:padding="5dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -141,7 +142,8 @@
             android:layout_alignBaseline="@+id/but_signin"
             android:layout_alignBottom="@+id/but_signin"
             android:layout_toLeftOf="@+id/forgotpass"
-            android:layout_toStartOf="@+id/forgotpass" />
+            android:layout_toStartOf="@+id/forgotpass"
+            android:padding="5dp" />
 
     </RelativeLayout>
 

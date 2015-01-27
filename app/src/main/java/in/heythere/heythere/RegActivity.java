@@ -58,13 +58,14 @@ public class RegActivity extends FragmentActivity {
 
     private String new_user, new_pass,new_name,new_emailid;
     private ProgressDialog pDialog;
-    private static final String REG_URL = "http://192.168.0.13/heyserver/server/reg_exec.php";
+    private static final String REG_URL="http://server.heyteam.me/reg_exec.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private Uri imageUri;
     private Button finishbut;
     private static Bitmap dpImage = null;
     JSONParser jsonParser = new JSONParser();
+    int success=1;
 
 
 
@@ -266,7 +267,7 @@ public class RegActivity extends FragmentActivity {
 
         /*  here Check for success tag */
             Log.d("Background AttemptReg()", "Background Starting");
-            int success;
+
             String msg = "0";
             Log.d("Background AttemptReg()", "Creating Input Objects ");
 
@@ -312,11 +313,11 @@ public class RegActivity extends FragmentActivity {
                 // TODO
                 params.add(new BasicNameValuePair("dpimage", dpImage_encoded));
 
+
                 Log.d("JSON request!", "starting");
                 JSONObject json = jsonParser.makeHttpRequest( REG_URL, "POST", params);
                 success = json.getInt(TAG_SUCCESS);
-                //Log.d("Value of Success is", success);
-                //success=1;
+
 
 
                 if (success == 1) {
