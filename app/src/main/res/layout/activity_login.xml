@@ -1,0 +1,165 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/bground"
+    android:background="#006699"
+    android:weightSum="1"
+    tools:context="in.heythere.heythere.login">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="111dp"
+
+        android:rowCount="8"
+        android:columnCount="7"
+         android:columnOrderPreserved="false"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/f"
+            android:id="@+id/fb_login"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/gplus_login"
+            android:layout_toStartOf="@+id/gplus_login"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
+            android:contentDescription="@string/f"
+            android:background="@drawable/fb_ico"
+            android:clickable="false"
+            android:src="@drawable/fb_ico"
+            android:scaleType="fitStart" />
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/g"
+            android:id="@+id/gplus_login"
+            android:layout_alignTop="@+id/fb_login"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/gp_ico"
+            android:contentDescription="@string/g"
+            android:scaleType="fitStart"
+            android:background="@drawable/gp_ico" />
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/t"
+            android:id="@+id/twitter_login"
+            android:layout_alignTop="@+id/gplus_login"
+            android:layout_toRightOf="@+id/gplus_login"
+            android:layout_toEndOf="@+id/gplus_login"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:focusable="false"
+            android:background="@drawable/tweet_ico"
+            android:contentDescription="@string/t"
+            android:clickable="true"
+            android:src="@drawable/tweet_ico"
+            android:scaleType="fitStart" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="304dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/userid"
+            android:background="@android:color/darker_gray"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:inputType="text" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/password"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/userid"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/pwd_forgot"
+            android:id="@+id/forgotpass"
+            android:textColor="#ffffffff"
+            android:textStyle="normal"
+            android:typeface="sans"
+            android:enabled="false"
+            android:layout_below="@+id/password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signin"
+            android:id="@+id/but_signin"
+            android:background="#ff004fff"
+            android:textColor="#ffffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/forgotpass"
+            android:layout_toEndOf="@+id/forgotpass"
+            android:layout_marginBottom="48dp"
+            android:padding="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newacc"
+            android:id="@+id/but_reg"
+            android:background="#ff004fff"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:clickable="false"
+            android:layout_alignBaseline="@+id/but_signin"
+            android:layout_alignBottom="@+id/but_signin"
+            android:layout_toLeftOf="@+id/forgotpass"
+            android:layout_toStartOf="@+id/forgotpass"
+            android:padding="5dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/Heythere_logo"
+        android:id="@+id/textView"
+        android:autoText="false"
+        android:gravity="center"
+        android:textColor="#fff9fffd"
+        android:textSize="@dimen/abc_action_button_min_width_overflow_material"
+        android:layout_weight="0.23"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+</FrameLayout>
